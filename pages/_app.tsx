@@ -42,10 +42,6 @@ const ALCHEMY_MAINNET_RPCURL = process.env.ALCHEMY_MAINNET_RPCURL
 
 
 
-
-
-
-
 const injected = injectedModule()
 const coinbase = coinbaseModule()
 const dcent = dcentModule()
@@ -106,10 +102,10 @@ const chains = [
   },
   
   {
-    id: '1337',
+    id: '31337',
     token: 'localETH',
     label: 'localhost',
-    rpcUrl: 'http://localhost:7545'
+    rpcUrl: 'http://localhost:8545'
   }
 ]
 
