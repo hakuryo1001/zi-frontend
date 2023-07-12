@@ -4,9 +4,21 @@ import Infoblock from "./infoblock";
 import { formatEther, parseEther } from "ethers/lib/utils";
 
 const AuctionInfo = () => {
-    const {totalSupply, 
-        emissionRate,
-        purchasePriceForOne, initialSupply} = useContext(ContractContext);
+    const {
+        accountAddress, 
+        initialSupply, 
+        supplyLimit, 
+        remainingSupply, 
+        oneBipOfTotalSupply, 
+        allMinters,
+        totalSupply, 
+        purchasePriceForOne,
+        contractConfig,
+        
+        ziContract,
+        auctionModuleContract
+        
+        } = useContext(ContractContext);
 
     return (
         <div>

@@ -44,6 +44,8 @@ const ContractProvider = ({ children }: any) => {
     const [criticalAmount, setCriticalAmount] = useState(null);
     const [purchasePriceForOne, setPurchasePriceForOne] = useState(null);
 
+    const [ziContract, setZiContract] = useState(null);
+    const [auctionModuleContract, setAuctionModuleContract] = useState(null);
 
     const zi_address = contractConfig.Zi.contractAddress;
     const zi_abi = contractConfig.Zi.contractABI;
@@ -52,12 +54,10 @@ const ContractProvider = ({ children }: any) => {
 
 
     useEffect(() => {
-
         if (typeof window !== 'undefined' && typeof window.ethereum !== 'undefined') {
             // We are in the browser and metamask is running
             setProvider(new ethers.providers.Web3Provider(window.ethereum));
         }
-
     }, []);
 
     useEffect(() => {
@@ -69,73 +69,75 @@ const ContractProvider = ({ children }: any) => {
     useEffect(() => {
         if (!signer) return;
 
-        const ziContract = new ethers.Contract(zi_address, zi_abi, signer);
-        const auctionModuleContract = new ethers.Contract(auctionModule_address, auctionModule_abi, signer);
+        const _ziContract = new ethers.Contract(zi_address, zi_abi, signer);
+        const _auctionModuleContract = new ethers.Contract(auctionModule_address, auctionModule_abi, signer);
 
         const fetchData = async () => {
-            const ziInitialSupply = await ziContract.initialSupply();
-            const ziSupplyLimit = await ziContract.supplyLimit();
-            // const ziMinterAddresses = await ziContract.minterAddresses();
-            // const ziMinters = await ziContract.minters();
-            // const ziMinterAllowance = await ziContract.minterAllowance();
-            // const ziInitialAllowance = await ziContract.initialAllowance();
-            // const ziEnabledMinters = await ziContract.enabledMinters();
-            // const ziIsMinter = await ziContract.isMinter();
-            const ziRemainingSupply = await ziContract.remainingSupply();
-            const ziOneBipOfTotalSupply = await ziContract.oneBipOfTotalSupply();
-            const ziAllMinters = await ziContract.allMinters();
-            const ziTotalSupply = await ziContract.totalSupply();
-            // const ziPurchasePrice = await ziContract.purchasePrice();    
+             
+            const _ziInitialSupply = await _ziContract.initialSupply();
+            const _ziSupplyLimit = await _ziContract.supplyLimit();
+            // const _ziMinterAddresses = await _ziContract.minterAddresses();
+            // const _ziMinters = await _ziContract.minters();
+            // const _ziMinterAllowance = await _ziContract.minterAllowance();
+            // const _ziInitialAllowance = await _ziContract.initialAllowance();
+            // const _ziEnabledMinters = await _ziContract.enabledMinters();
+            // const _ziIsMinter = await _ziContract.isMinter();
+            const _ziRemainingSupply = await _ziContract.remainingSupply();
+            const _ziOneBipOfTotalSupply = await _ziContract.oneBipOfTotalSupply();
+            const _ziAllMinters = await _ziContract.allMinters();
+            const _ziTotalSupply = await _ziContract.totalSupply();
+            // const _ziPurchasePrice = await _ziContract.purchasePrice();    
             //
             
-            const amTokenAddress                    = await auctionModuleContract.tokenAddress();
-            const amTotalAuctionAmount              = await auctionModuleContract.totalAuctionAmount();
-            const amTotalAmountSold                 = await auctionModuleContract.totalAmountSold();
-            const amLimit                           = await auctionModuleContract.limit();
-            const amInitialAuctionPrice             = await auctionModuleContract.initialAuctionPrice();
-            const amLastAvailableAuctionStartTime   = await auctionModuleContract.lastAvailableAuctionStartTime();
-            const amStartTime                       = await auctionModuleContract.startTime();
-            const amTimeToEmitAll                   = await auctionModuleContract.timeToEmitAll();
-            const amHalflife                        = await auctionModuleContract.halflife();
-            const amDecayConstant                   = await auctionModuleContract.decayConstant();
-            const amEmissionRate                    = await auctionModuleContract.emissionRate();
-            const amCriticalTime                    = await auctionModuleContract.criticalTime();
-            const amCriticalAmount                  = await auctionModuleContract.criticalAmount();
-            const amPurchasePrice                   = await auctionModuleContract.purchasePrice(ethers.utils.parseEther("1.0"));
+            
+            const _amTokenAddress                    = await _auctionModuleContract.tokenAddress();
+            const _amTotalAuctionAmount              = await _auctionModuleContract.totalAuctionAmount();
+            const _amTotalAmountSold                 = await _auctionModuleContract.totalAmountSold();
+            const _amLimit                           = await _auctionModuleContract.limit();
+            const _amInitialAuctionPrice             = await _auctionModuleContract.initialAuctionPrice();
+            const _amLastAvailableAuctionStartTime   = await _auctionModuleContract.lastAvailableAuctionStartTime();
+            const _amStartTime                       = await _auctionModuleContract.startTime();
+            const _amTimeToEmitAll                   = await _auctionModuleContract.timeToEmitAll();
+            const _amHalflife                        = await _auctionModuleContract.halflife();
+            const _amDecayConstant                   = await _auctionModuleContract.decayConstant();
+            const _amEmissionRate                    = await _auctionModuleContract.emissionRate();
+            const _amCriticalTime                    = await _auctionModuleContract.criticalTime();
+            const _amCriticalAmount                  = await _auctionModuleContract.criticalAmount();
+            const _amPurchasePrice                   = await _auctionModuleContract.purchasePrice(ethers.utils.parseEther("1.0"));
 
-            setInitialSupply(ziInitialSupply)
-            setSupplyLimit(ziSupplyLimit)
-            // setMinterAddresses(ziMinterAddresses)
-            // setMinters(ziMinters)
-            // setMinterAllowance(ziMinterAllowance)
-            // setInitialAllowance(ziInitialAllowance)
-            // setEnabledMinters(ziEnabledMinters )
-            // setIsMinter(ziIsMinter)
-            setRemainingSupply(ziRemainingSupply)
-            setOneBipOfTotalSupply(ziOneBipOfTotalSupply)
-            setAllMinters(ziAllMinters )
-            setTotalSupply(ziTotalSupply)
-            
-            
-            setTokenAddress(amTokenAddress)
-            setTotalAuctionAmount(amTotalAuctionAmount)
-            setTotalAmountSold(amTotalAmountSold)
-            setLimit(amLimit)
-            setInitialAuctionPrice(amInitialAuctionPrice)
-            setLastAvailableAuctionStartTime(amLastAvailableAuctionStartTime)
-            setStartTime(amStartTime)
-            setTimeToEmitAll(amTimeToEmitAll)
-            setHalflife(amHalflife)
-            setDecayConstant(amDecayConstant)
-            setEmissionRate(amEmissionRate)
-            setCriticalTime(amCriticalTime)
-            setCriticalAmount(amCriticalAmount)
-            setPurchasePriceForOne(amPurchasePrice)
+            setInitialSupply(_ziInitialSupply)
+            setSupplyLimit(_ziSupplyLimit)
+            // setMinterAddresses(_ziMinterAddresses)
+            // setMinters(_ziMinters)
+            // setMinterAllowance(_ziMinterAllowance)
+            // setInitialAllowance(_ziInitialAllowance)
+            // setEnabledMinters(_ziEnabledMinters )
+            // setIsMinter(_ziIsMinter)
+            setRemainingSupply(_ziRemainingSupply)
+            setOneBipOfTotalSupply(_ziOneBipOfTotalSupply)
+            setAllMinters(_ziAllMinters )
+            setTotalSupply(_ziTotalSupply)
+            setTokenAddress(_amTokenAddress)
+            setTotalAuctionAmount(_amTotalAuctionAmount)
+            setTotalAmountSold(_amTotalAmountSold)
+            setLimit(_amLimit)
+            setInitialAuctionPrice(_amInitialAuctionPrice)
+            setLastAvailableAuctionStartTime(_amLastAvailableAuctionStartTime)
+            setStartTime(_amStartTime)
+            setTimeToEmitAll(_amTimeToEmitAll)
+            setHalflife(_amHalflife)
+            setDecayConstant(_amDecayConstant)
+            setEmissionRate(_amEmissionRate)
+            setCriticalTime(_amCriticalTime)
+            setCriticalAmount(_amCriticalAmount)
+            setPurchasePriceForOne(_amPurchasePrice)
+
+            setZiContract(_ziContract);
+            setAuctionModuleContract(_auctionModuleContract);
+
         };
 
-        fetchData();
-
-            
+        fetchData();    
     }, [signer]);
 
     const [accountAddress, setAccountAddress] = useState<any>()
@@ -148,24 +150,24 @@ const ContractProvider = ({ children }: any) => {
         
         fetchAccountData();
     }, [])
-
     
     return (
         <ContractContext.Provider value={{
-             
             accountAddress, 
             initialSupply, 
             supplyLimit, 
-            
-            
-            
             remainingSupply, 
             oneBipOfTotalSupply, 
             allMinters,
             totalSupply, 
             purchasePriceForOne,
             contractConfig,
-                        accountAddress,
+            
+            ziContract,
+            auctionModuleContract,
+            
+            
+            
         }}>
             {children}
         </ContractContext.Provider>
